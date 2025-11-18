@@ -1,0 +1,93 @@
+#aanvulling van de left as an exercise in de LinkedList (eerst zelf geprobeerd en dan verbeterd door chat gpt)
+    # Return true if this list contains the element e
+    def contains(self, e):
+        current = self.__head
+        while current:
+            if current.element == e:
+                return True
+            current = current.next
+        return False   # ➤ FOUT VERBETERD: je originele code gaf None terug als het element niet gevonden werd
+
+
+    # Remove the element and return true if the element is in the list 
+    def remove(self, e):
+        # ➤ FOUT VERBETERD: self.contains(e) deed niets, resultaat werd niet gebruikt
+        current = self.__head
+        previous = None
+
+        while current:
+            if current.element == e:
+                # Element gevonden → verwijderen
+                if previous:
+                    previous.next = current.next
+                else:
+                    self.__head = current.next
+
+                # Indien laatste element verwijderd, tail updaten
+                if current == self.__tail:
+                    self.__tail = previous
+
+                self.__size -= 1
+                return True   # ➤ FOUT VERBETERD: return toevoegen
+
+            previous = current
+            current = current.next
+
+        return False  # ➤ FOUT VERBETERD: bij niet gevonden element moet False teruggegeven worden
+
+
+    # Return the element from this list at the specified index 
+    def get(self, index):
+        # ➤ FOUT VERBETERD: index mag NIET gelijk zijn aan size (out of range)
+        if index < 0 or index >= self.__size:
+            return None
+
+        current = self.__head
+        for _ in range(index):
+            current = current.next
+
+        return current.element    # ➤ FOUT VERBETERD: je retourneerde de node zelf, niet het element
+
+
+    # Return the index of the first matching element in this list.
+    def indexOf(self, e):
+        current = self.__head
+        index = 0
+
+        while current:
+            if current.element == e:
+                return index   # ➤ FOUT VERBETERD: je retourneerde de node, niet de index
+            current = current.next
+            index += 1
+
+        return -1
+
+
+    # Return the index of the last matching element in this list
+    def lastIndexOf(self, e):
+        current = self.__head
+        index = 0
+        last_match = -1
+
+        while current:
+            if current.element == e:
+                last_match = index   # ➤ FOUT VERBETERD: je retourneerde de node, niet de index
+            current = current.next
+            index += 1
+
+        return last_match
+
+
+    # Replace the element at the specified position in this list
+    def set(self, index, e):
+        # Out of range?
+        if index < 0 or index >= self.__size:
+            return None  # ➤ FOUT VERBETERD: je probeerde nodes te herschrijven ipv element te vervangen
+
+        current = self.__head
+        for _ in range(index):
+            current = current.next
+
+        old = current.element
+        current.element = e  # ➤ FOUT VERBETERD: je maakte een nieuwe Node aan (fout)
+        return old

@@ -1,0 +1,80 @@
+import csv
+import time
+from datetime import datetime
+
+register = dict()  # key=rijksregisternummer, value=lijst van bedrag, datum van intekening, rekeningnummer
+iban_overheid = 'BE11 1234 1234 1234'
+bic_overheid = "FGTHGI"
+
+def intekenen_staatsbon(bedrag, rijksregisternummer, rekeningnummer):
+    # FOUT: ontbrekende return False statements toegevoegd
+    if not bedrag > 0:
+        print(f"FOUT: {bedrag} moet hoger zijn dan 0.")
+        return False
+    if not bedrag % 100 == 0:
+        print(f"FOUT: {bedrag} is geen veelvoud van 100.")
+        return False  # TOEGEVOEGD: return False ontbrak
+    if rijksregisternummer in register:
+        print(f"FOUT: er werd reeds ingetekend via rijksregisternummer")
+        return False  # TOEGEVOEGD: return False ontbrak
+    else:
+        # VERBETERD: tijdstip toegevoegd zoals gevraagd in de opgave
+        register[rijksregisternummer] = [bedrag, datetime.now(), rekeningnummer]
+        return True
+
+def ingetekend_bedrag(rijksregisternummer):
+    if rijksregisternummer in register:
+        return register[rijksregisternummer][0]
+    else:
+        return 0
+
+def betalingsuitnodiging(rijksregisternummer):
+    # VERBETERD: tekst aangepast volgens opgave (typo's gecorrigeerd)
+    print(f"Het bedrag dient ten laatste op 01/09/2023 op onze rekening te staan.")
+    print()
+    print(f"**IBAN : {iban_overheid} (BIC : {bic_overheid})**")  # VERBETERD: IBAN ipv IDAN, ** voor bold
+    print(f"Op naam van de Dienst van de Grootboeken, Kunstlaan 30 te 1040 Brussel.")  # VERBETERD: tekst gecorrigeerd
+    print(f"Bedrag : {register[rijksregisternummer][0]} EUR")  # VERBETERD: dubbele punt ipv enkele
+    print(f"met de mededeling : Aankoop Staatsbon {rijksregisternummer}")  # VERBETERD: Aankoop ipv Amboog
+
+def totaal_ingetekend():
+    totaal_bedrag = 0
+    for rijksregisternummer in register:
+        totaal_bedrag += register[rijksregisternummer][0]
+    return totaal_bedrag
+
+def register_to_csv(filename, scheidingsteken=";"):
+    # VERBETERD: csv.writer correct gebruikt ipv strings
+    with open(filename, 'w', encoding='utf-8', newline='') as csvfile:
+        writer = csv.writer(csvfile, delimiter=scheidingsteken)
+        writer.writerow(["rijksregisternummer", "bedrag", "tijdstip", "rekeningnummer"])
+        for rijksregisternummer, data in register.items():
+            writer.writerow([rijksregisternummer, data[0], data[1], data[2]])
+
+def main():
+    # VERBETERD: resultaten tonen en meer tests
+    print("=== Test intekeningen ===")
+    result1 = intekenen_staatsbon(100, '93.05.21-123.00', 'BE11 1111 1111 1111')  # VERBETERD: rijksregisternummer formaat
+    result2 = intekenen_staatsbon(300, '81.02.04-456.12', 'BE22 2222 2222 2222')
+    result3 = intekenen_staatsbon(700, '07.05.12-678.11', 'BE33 3333 3333 3333')
+    
+    print(f"\nIntekening resultaten: {result1}, {result2}, {result3}")
+    
+    print("\n=== Betalingsuitnodiging ===")
+    betalingsuitnodiging('93.05.21-123.00')
+    
+    print(f"\n=== Totaal ingetekend: {totaal_ingetekend()} EUR ===")
+    
+    print("\n=== Test foutgevallen ===")
+    intekenen_staatsbon(0, '11.11.11-111.11', 'BE44 4444 4444 4444')  # Bedrag <= 0
+    intekenen_staatsbon(150, '93.05.21-123.00', 'BE55 5555 5555 5555')  # Al ingetekend
+    intekenen_staatsbon(50, '12.12.12-121.12', 'BE66 6666 6666 6666')  # Geen veelvoud van 100
+    
+    print(f"\n=== Totaal na foutgevallen: {totaal_ingetekend()} EUR ===")
+    
+    # CSV test
+    register_to_csv("staatsbon_register.csv")
+    print("\n=== CSV bestand aangemaakt ===")
+
+if __name__ == "__main__":
+    main()

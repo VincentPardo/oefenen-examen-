@@ -1,0 +1,252 @@
+class PassGraph:
+    def __init__(self, path=None):
+        self.players = []
+        self.adj = {}  # key=sender_name, waarden=lijst van pass objecten
+        
+        if path:
+            self._load_from_txt(path)
+    
+    def _load_from_txt(self, path):
+        """Private methode om bestand in te lezen"""
+        try:
+            with open(path, 'r', encoding='utf-8') as f:
+                lines = f.readlines()
+        except FileNotFoundError:
+            raise ValueError(f"Bestand {path} niet gevonden")
+        
+        current_section = None
+        line_number = 0
+        
+        for line in lines:
+            line_number += 1
+            line = line.strip()
+            
+            # Skip lege regels en commentaar
+            if not line or line.startswith('#'):
+                continue
+            
+            # Sectie headers herkennen
+            if line.startswith('[') and line.endswith(']'):
+                current_section = line[1:-1].upper()  # Haakjes verwijderen en uppercase
+                if current_section not in ['PLAYERS', 'PASSES']:
+                    raise ValueError(f"Onbekende sectie: {line} op regel {line_number}")
+                continue
+            
+            # Verwerk regels op basis van huidige sectie
+            if current_section == 'PLAYERS':
+                self._process_player_line(line, line_number)
+            elif current_section == 'PASSES':
+                self._process_pass_line(line, line_number)
+            else:
+                raise ValueError(f"Regel buiten sectie: {line} op regel {line_number}")
+    
+    def _process_player_line(self, line, line_number):
+        """Verwerk een speler regel"""
+        parts = line.split(';')
+        if len(parts) != 2:
+            raise ValueError(f"Ongeldig player formaat: {line} op regel {line_number}")
+        
+        name = parts[0].strip()
+        number_str = parts[1].strip()
+        
+        try:
+            number = int(number_str)
+        except ValueError:
+            raise ValueError(f"Ongeldig shirtnummer: {number_str} op regel {line_number}")
+        
+        # Voeg speler toe (add_player controleert op duplicaten)
+        self.add_player(Player(name, number))
+    
+    def _process_pass_line(self, line, line_number):
+        """Verwerk een pass regel"""
+        if '->' not in line or ':' not in line:
+            raise ValueError(f"Ongeldig pass formaat: {line} op regel {line_number}")
+        
+        # Split in delen: sender -> receiver : count
+        arrow_parts = line.split('->')
+        if len(arrow_parts) != 2:
+            raise ValueError(f"Ongeldig pass formaat: {line} op regel {line_number}")
+        
+        sender_name = arrow_parts[0].strip()
+        
+        # Split receiver en count
+        colon_parts = arrow_parts[1].split(':')
+        if len(colon_parts) != 2:
+            raise ValueError(f"Ongeldig pass formaat: {line} op regel {line_number}")
+        
+        receiver_name = colon_parts[0].strip()
+        count_str = colon_parts[1].strip()
+        
+        try:
+            count = int(count_str)
+            if count <= 0:
+                raise ValueError(f"Aantal passes moet positief zijn: {count} op regel {line_number}")
+        except ValueError:
+            raise ValueError(f"Ongeldig aantal passes: {count_str} op regel {line_number}")
+        
+        # Zoek spelers
+        sender = self.get_player(sender_name)
+        receiver = self.get_player(receiver_name)
+        
+        if not sender:
+            raise ValueError(f"Onbekende zender: {sender_name} op regel {line_number}")
+        if not receiver:
+            raise ValueError(f"Onbekende ontvanger: {receiver_name} op regel {line_number}")
+        
+        # Voeg pass toe
+        self.add_pass(sender, receiver, count)
+    
+    # BESTAANDE METHODES (aangepast voor consistentie)
+    def add_player(self, player):
+        if not self.has_player(player):
+            self.players.append(player)
+            self.adj[player.name] = []
+    
+    def has_player(self, speler):
+        if isinstance(speler, Player):
+            return speler in self.players
+        elif isinstance(speler, str):
+            return any(p.name == speler for p in self.players)
+        return False
+    
+    def get_player(self, name):
+        for player in self.players:
+            if player.name == name:
+                return player
+        return None
+    
+    def add_pass(self, sender, receiver, nr_of_times=1):
+        if not (self.has_player(sender) and self.has_player(receiver)):
+            raise ValueError("Sender or receiver not in graph")
+            
+        if nr_of_times <= 0:
+            raise ValueError("nr_of_times must be greater than 0")
+            
+        sender_name = sender.name
+        
+        # Zoek bestaande pass
+        for pass_obj in self.adj[sender_name]:
+            if pass_obj.receiver.name == receiver.name:
+                pass_obj.nr_of_times += nr_of_times
+                return
+                
+        # Nieuwe pass toevoegen
+        new_pass = Pass(sender, receiver, nr_of_times)
+        self.adj[sender_name].append(new_pass)
+    
+    # NIEUWE METHODES VOOR DEEL 4
+    def players(self):
+        """Geef een kopie van de spelerslijst terug"""
+        return self.players[:]  # Return kopie voor bescherming
+    
+    def passes(self):
+        """Geef alle passes in de graaf terug"""
+        all_passes = []
+        for sender_name in self.adj:
+            all_passes.extend(self.adj[sender_name])
+        return all_passes
+    
+    def save_to_txt(self, path):
+        """Slaat de volledige graaf op in txt formaat"""
+        with open(path, 'w', encoding='utf-8') as f:
+            # Schrijf header commentaar
+            f.write("# PassGraph export\n")
+            f.write("# Team data\n\n")
+            
+            # Schrijf PLAYERS sectie
+            f.write("[PLAYERS]\n")
+            # Sorteer spelers op naam voor consistentie
+            sorted_players = sorted(self.players, key=lambda p: p.name)
+            for player in sorted_players:
+                f.write(f"{player.name};{player.number}\n")
+            
+            f.write("\n")  # Lege regel tussen secties
+            
+            # Schrijf PASSES sectie  
+            f.write("[PASSES]\n")
+            # Sorteer eerst op zender, dan op ontvanger
+            sorted_senders = sorted(self.adj.keys())
+            for sender_name in sorted_senders:
+                # Sorteer passes per zender op ontvanger naam
+                sorted_passes = sorted(self.adj[sender_name], 
+                                     key=lambda p: p.receiver.name)
+                for pass_obj in sorted_passes:
+                    f.write(f"{pass_obj.sender.name} -> {pass_obj.receiver.name} : {pass_obj.nr_of_times}\n")
+
+# TESTSCRIPT
+def test_passgraph_io():
+    print("=== Test PassGraph Opslaan en Inlezen ===")
+    
+    # 1. Bouw een PassGraph op
+    g1 = PassGraph()
+    
+    # Voeg minstens 4 spelers toe
+    players = [
+        Player("Eden Hazard", 10),
+        Player("Moussa Dembele", 19), 
+        Player("Jan Vertonghen", 5),
+        Player("Romelu Lukaku", 9),
+        Player("Kevin De Bruyne", 7)
+    ]
+    
+    for player in players:
+        g1.add_player(player)
+    
+    # Voeg minstens 4 passes toe, waarvan 1 pass meerdere keren
+    g1.add_pass(players[0], players[1], 5)  # Hazard -> Dembele
+    g1.add_pass(players[0], players[3], 3)  # Hazard -> Lukaku
+    g1.add_pass(players[2], players[3], 2)  # Vertonghen -> Lukaku  
+    g1.add_pass(players[4], players[0], 4)  # De Bruyne -> Hazard
+    
+    # Voeg dezelfde pass nog eens toe (moet gewicht optellen)
+    g1.add_pass(players[0], players[1], 2)  # Hazard -> Dembele (nu totaal 7)
+    
+    print("Originele graaf:")
+    print(f"Aantal spelers: {len(g1.players())}")
+    print(f"Aantal passes: {len(g1.passes())}")
+    
+    # Toon passes voor Hazard
+    hazard_passes = g1.adj["Eden Hazard"]
+    for pass_obj in hazard_passes:
+        print(f"  {pass_obj} (gewicht: {pass_obj.nr_of_times})")
+    
+    # 2. Sla op naar bestand
+    g1.save_to_txt("team.txt")
+    print("\nGraaf opgeslagen in team.txt")
+    
+    # 3. Lees opnieuw in
+    g2 = PassGraph("team.txt")
+    
+    print("\nIngeladen graaf:")
+    print(f"Aantal spelers: {len(g2.players())}")
+    print(f"Aantal passes: {len(g2.passes())}")
+    
+    # Controleer of passes correct zijn ingeladen
+    hazard_passes_loaded = g2.adj["Eden Hazard"]
+    for pass_obj in hazard_passes_loaded:
+        print(f"  {pass_obj} (gewicht: {pass_obj.nr_of_times})")
+    
+    # 4. Verifieer dat de gewichten kloppen
+    original_hazard_dembele = None
+    for pass_obj in hazard_passes:
+        if pass_obj.receiver.name == "Moussa Dembele":
+            original_hazard_dembele = pass_obj.nr_of_times
+            break
+    
+    loaded_hazard_dembele = None  
+    for pass_obj in hazard_passes_loaded:
+        if pass_obj.receiver.name == "Moussa Dembele":
+            loaded_hazard_dembele = pass_obj.nr_of_times
+            break
+    
+    print(f"\nVerificatie:")
+    print(f"Origineel gewicht Hazard->Dembele: {original_hazard_dembele}")
+    print(f"Geladen gewicht Hazard->Dembele: {loaded_hazard_dembele}")
+    print(f"Gewichten gelijk: {original_hazard_dembele == loaded_hazard_dembele}")
+    
+    # 5. Test de players() en passes() methodes
+    print(f"\nPlayers methode: {len(g2.players())} spelers")
+    print(f"Passes methode: {len(g2.passes())} passes")
+
+if __name__ == "__main__":
+    test_passgraph_io()

@@ -1,0 +1,56 @@
+def _load_from_txt(self, path):
+    current_section = None
+
+    with open(path, "r", encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+
+            if not line or line.startswith("#"):
+                continue
+
+            if line == "[PLAYERS]":
+                current_section = "players"
+                continue
+
+            if line == "[PASSES]":
+                current_section = "passes"
+                continue
+
+            if current_section is None:
+                raise ValueError("Bestand moet beginnen met [PLAYERS]")
+
+            if current_section == "players":
+                name, number = line.split(";")
+                name = name.strip()
+                number = number.strip()
+                nr = int(number)
+                self.add_player(name, nr)
+
+            elif current_section == "passes":
+                # Split: A -> B : 5
+                part_sender, part_rest = line.split("->")
+                part_receiver, part_nr = part_rest.split(":")
+                
+                sender = part_sender.strip()
+                receiver = part_receiver.strip()
+                nr = int(part_nr.strip())
+
+                if sender not in self._players or receiver not in self._players:
+                    raise ValueError("Pass naar onbekende speler")
+
+                self.add_pass(sender, receiver, nr)
+
+            else:
+                raise ValueError("Onbekende sectie")
+def save_to_txt(self, path):
+    with open(path, "w", encoding="utf-8") as f:
+        f.write("[PLAYERS]\n")
+        for name in sorted(self._players):
+            number = self._players[name]
+            f.write(f"{name};{number}\n")
+
+        f.write("\n[PASSES]\n")
+        for sender in sorted(self._passes):
+            for receiver in sorted(self._passes[sender]):
+                nr = self._passes[sender][receiver]
+                f.write(f"{sender} -> {receiver} : {nr}\n")

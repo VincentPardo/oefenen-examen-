@@ -102,7 +102,12 @@ class PassGraph:
         if isinstance(speler,Player):
             return speler in self.players
         elif isinstance(speler,str):
-            return any(p.name == speler for p in self.players)
+            gevonden = False
+                for p in self.players:
+                    if p.name == speler:
+                        gevonden = True
+                        break  # Stop bij eerste match
+                return gevonden
         return False
         
     def get_player(self,name):

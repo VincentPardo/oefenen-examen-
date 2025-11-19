@@ -1,0 +1,441 @@
+vince
+vincent776
+Inactief
+F000888 3e Bach HIR
+
+Ruben — 13:40
+ik zocht gwn altijd de shit op die ik niet snapte en nu mag dat niet meer
+Champ
+
+ — 13:42
+Huh wa
+Wa bedoel je
+Banaan — 13:43
+moeje bij fulfill demand nie uw batches me quantity 0 nog weg doen?
+patje — 13:43
+?
+Ruben — 13:43
+In mail paar min geleden staat er dat we enkel toegang gaan hebben tot paar sites (dodona, github, w3schools en nog een paar)
+patje — 13:43
+daar staat toch nergens iets vna in de opgave
+je moet gwn 0 retourneren als je genoeg voorraad hebt
+toch?
+Banaan — 13:44
+alzo
+patje — 13:44
+en als je tekort komt stockout penalty
+er sta niks van effectief verwijderen
+Banaan — 13:44
+kdacht aje uw batch gebruikte voor uw demand daje em moest wegdoen
+patje — 13:44
+ah
+da kan mss wel ma das wel ni zo duidelijk gezegd
+Mille — 13:48
+Waar tf is PC-lokaal kantienberg?
+Champ
+
+ — 13:54
+Isda nie van artevelde
+Cito2 — 13:54
+zouden wij op Word kunnen? Heb een aantal word bestanden met code... 
+vince — 13:54
+bedoelt hij me naam achternaam
+Champ
+
+ — 13:54
+Keb ook een word doc op google drive
+Kan ik daaraan
+Mille — 13:54
+Nrml wel
+vince — 13:54
+oke merci
+Cito2 — 13:55
+ge kunt Word bestanden in uw github zetten, maar vraag mij af of de app Word wel gaat kunnen openen?
+kristof — 13:55
+denk het wel
+eric — 13:55
+ik denk wel dat die pc's word hebben
+kristof — 13:55
+sws eric
+wat denk je
+cooked?
+eric — 13:56
+ja echt compleet cooked
+kristof kan jij dat examen van vorig jaar
+kristof — 13:56
+hell no
+ale totaal nie volledig
+eric — 13:56
+lesgo ik ook
+JA — 13:56
+voorbeeldexamen vindk wel cva, ma da examen van vorig jaar❌
+kristof — 13:57
+indd ja
+vince — 13:57
+wa is proctorio zelf
+eric — 13:57
+gesproken Ja
+JA — 13:57
+da gebruiken ze om te monitoren
+vince — 13:58
+ah oke
+Ruben — 14:00
+wat als we gewoon allemaal onze antwoorden in een public github repo zetten?
+github is toegestaan zegt hij 😭
+kristof — 14:00
+ai bet
+eric — 14:00
+maak jij eentje aan Ruben?
+Ruben — 14:00
+sowieso eric
+kristof — 14:00
+en jonas & patje vullen ze in?
+Ruben — 14:01
+uploaad het anders gewoon in de groepswerk github van een random groep bij wie het nog op public staat 💀
+sb17638 — 14:01
+copilot via github kan toch ook gwn er zal wel een soort volg systeem op zitten nee?
+kristof — 14:01
+fdc jij ook sorry
+Ruben — 14:01
+bij da ding da ze gebruiken om te monitoren kunnen ze je scherm zien
+FDC — 14:01
+met mij ben je niets hoor
+Ruben — 14:01
+idk of ze dat ook echt zouden doen met hoeveel pc's erzijn maarjah
+FDC — 14:02
+alsze allemaal dezelfde indieningen zien wel ja
+eric — 14:02
+met mij ook niet
+Ruben — 14:02
+100% overeenkomt tussen iedereens antwoord
+anders geef ik Jonas gwn mijn dodona login en doet hij het voor mij
+Jonas 😌 — 14:05
+ik? nee wi
+keb er ook weinig vertrouwen in
+JA — 14:06
+weinig vertrouwen = 14/20 ?
+Banaan — 14:07
+ist 10 project 10 examen
+eric — 14:07
+ja
+vince — 14:07
+moeten wij dr nog ergens via die jetbrains licentie op pycharm graken of zoude ze al een pycharm omgeving hebbe klaarstaan
+FDC — 14:07
+ja
+eric — 14:07
+ow shit da zou nog kunnen 😭
+vince — 14:08
+cooked hahaha
+FDC — 14:08
+no way toch
+da ga toch gwn werken
+eric — 14:10
+kwni misschien da je ook nog eens moet inloggen op je jetbrains
+maa zou wel echt belachelijk zijn
+patje — 14:10
+ik weet dat wachtwoord niet meer hoor
+mn brein zit vol python
+Jonas 😌 — 14:10
+nah ik zou direct tekenen voor 7/10 ngl
+eric — 14:10
+ik ook
+vince — 14:11
+same
+mootjeshank — 14:11
+blijkbaar waren er vorig jaar veel gebuisd voor het examen en waren ze geblessed door da project
+Jonas 😌 — 14:11
+keb da ook al gehoord
+cooked
+eric — 14:12
+als ik da examen zie snap ik waarom
+FDC — 14:12
+verbetert hij streng
+vorig jaar niet toch
+vince — 14:13
+mss wil hij dat jaar betere performance zien
+dit
+weten wij eig onze punten hiervan doorheen het semester nog
+MrThibxdd — 14:15
+miss blessed hij met easy examen 🙏
+kop op mannen
+Banaan — 14:16
+@patje eje al load van csv bij da vorig examen?
+Jonas 😌 — 14:17
+nee
+vince — 14:17
+heerlijk
+patje — 14:17
+ja heb ik mn code hier nog niet gestuurd?
+of bedoel je herexamen
+want daar ben ik nu mee bezig (wtf is da)
+Banaan — 14:17
+ja ge ebt uw code gestuurd van da vorig examen
+vince — 14:17
+alsjij het al nie kan zijn er voor ons weinig kansen nog
+Banaan — 14:18
+behalve die load van csv
+en kzou niet weten oedaje da doe
+patje — 14:18
+oei wacht
+oei ik ben die vergeten
+wacht efkes
+Banaan — 14:19
+class Player:
+    def __init__(self,name,number):
+        self.name = name
+        self.number = number
+
+    def __eq__(self, other):
+        if isinstance(other, Player):
+            return self.name == other.name
+        return False
+
+    def __lt__(self, other):
+        if isinstance(other, Player):
+            return self.number < other.number
+        return NotImplemented
+
+    def __str__(self):
+        return f"{self.name} ({self.number})"
+
+class Pass:
+    def __init__(self,sender,receiver,nr_of_times):
+        self.sender = sender
+        self.receiver = receiver
+        self.nr_of_times = nr_of_times
+    def get_weight(self):
+        return self.nr_of_times
+    def get_start(self):
+        return self.sender
+    def get_end(self):
+        return self.receiver
+    def __eq__(self, other):
+        if isinstance(other, Pass):
+            return self.sender == other.sender and self.receiver == other.receiver
+        return False
+    def __str__(self):
+        return f"Pass from <{self.sender.name}> to <{self.receiver.name}>"
+
+class PassGraph:
+    def __init__(self):
+        self.players = []
+        self.adj = {}
+    def add_player(self,player):
+        if player not in self.players:
+            self.players.append(player)
+            self.adj[player.name] = []
+    def has_player(self,player):
+        if isinstance(player, Player):
+            name = player.name
+        else:
+            name = player
+            return any(p.name == name for p in self.players)
+    def get_players(self,name):
+        for i in range(len(self.players)):
+            if self.players[i].name == name:
+                return self.players[i]
+        return None
+    def add_pass(self,sender,receiver,times=1):
+        if times <= 0:
+            raise ValueError
+        if not (self.has_player(sender) and self.has_player(receiver)):
+            raise ValueError("Both sender and receiver must be added first.")
+
+            # Zoek bestaande pass
+        lst = self.adj[sender.name]
+        for ps in lst:
+            if ps.sender == sender and ps.receiver == receiver:
+                ps.nr_of_times += times
+                return
+
+        # Anders nieuwe pass toevoegen
+        lst.append(Pass(sender, receiver, times))
+    def get_passes(self,sender_name,receiver_name):
+        if sender_name not in self.adj:
+            return None
+        else:
+            lst = self.adj[sender_name]
+            for ps in lst:
+                if ps.receiver.name == receiver_name:
+                    return ps
+        return None
+    def neighbors(self,sender_name):
+        return self.adj.get(sender_name, [])
+
+    def total_weight(self, subset=None):
+        if subset is None:
+            subset = [p.name for p in self.players]
+
+        subset = set(subset)  # snelle lookup
+        total = 0
+
+        for s in subset:
+            for ps in self.adj.get(s, []):
+                if ps.receiver.name in subset:
+                    total += ps.nr_of_times
+
+        return total
+
+    def pass_intensity(self,subset = None):
+        if subset is None:
+            subset = [p.name for p in self.players]
+
+... (30 regels over)
+Invouwen
+message.txt
+5 KB
+Champ
+
+ — 14:22
+da herexamen vanaf deel 3 is onbegonnen werk
+sb17638 — 14:22
+die oef is echt insane toch
+patje — 14:22
+ja daarom hahha
+blabla — 14:22
+wa is deel 3
+kan iemand da
+sb17638 — 14:22
+als da t examen is kan ik beter gwn thuis blijven
+patje — 14:22
+deel 3 hebbik wel nog
+het lezen van txt file is gwn fucked up
+door al die voorwaarden
+patje — 14:23
+swel ni perfect omdak sorted() gebruik ma webbn da ni echt gezien ookal moeje da ook in deel 1 gebruiken
+Champ
+
+ — 14:23
+vanaf da je een beetje moe nadenken is t al gedaan memij
+kbn hier zo slecht in
+﻿
+class Player:
+    def __init__(self,name,number):
+        self.name = name
+        self.number = number
+
+    def __eq__(self, other):
+        if isinstance(other, Player):
+            return self.name == other.name
+        return False
+
+    def __lt__(self, other):
+        if isinstance(other, Player):
+            return self.number < other.number
+        return NotImplemented
+
+    def __str__(self):
+        return f"{self.name} ({self.number})"
+
+class Pass:
+    def __init__(self,sender,receiver,nr_of_times):
+        self.sender = sender
+        self.receiver = receiver
+        self.nr_of_times = nr_of_times
+    def get_weight(self):
+        return self.nr_of_times
+    def get_start(self):
+        return self.sender
+    def get_end(self):
+        return self.receiver
+    def __eq__(self, other):
+        if isinstance(other, Pass):
+            return self.sender == other.sender and self.receiver == other.receiver
+        return False
+    def __str__(self):
+        return f"Pass from <{self.sender.name}> to <{self.receiver.name}>"
+
+class PassGraph:
+    def __init__(self):
+        self.players = []
+        self.adj = {}
+    def add_player(self,player):
+        if player not in self.players:
+            self.players.append(player)
+            self.adj[player.name] = []
+    def has_player(self,player):
+        if isinstance(player, Player):
+            name = player.name
+        else:
+            name = player
+            return any(p.name == name for p in self.players)
+    def get_players(self,name):
+        for i in range(len(self.players)):
+            if self.players[i].name == name:
+                return self.players[i]
+        return None
+    def add_pass(self,sender,receiver,times=1):
+        if times <= 0:
+            raise ValueError
+        if not (self.has_player(sender) and self.has_player(receiver)):
+            raise ValueError("Both sender and receiver must be added first.")
+
+            # Zoek bestaande pass
+        lst = self.adj[sender.name]
+        for ps in lst:
+            if ps.sender == sender and ps.receiver == receiver:
+                ps.nr_of_times += times
+                return
+
+        # Anders nieuwe pass toevoegen
+        lst.append(Pass(sender, receiver, times))
+    def get_passes(self,sender_name,receiver_name):
+        if sender_name not in self.adj:
+            return None
+        else:
+            lst = self.adj[sender_name]
+            for ps in lst:
+                if ps.receiver.name == receiver_name:
+                    return ps
+        return None
+    def neighbors(self,sender_name):
+        return self.adj.get(sender_name, [])
+
+    def total_weight(self, subset=None):
+        if subset is None:
+            subset = [p.name for p in self.players]
+
+        subset = set(subset)  # snelle lookup
+        total = 0
+
+        for s in subset:
+            for ps in self.adj.get(s, []):
+                if ps.receiver.name in subset:
+                    total += ps.nr_of_times
+
+        return total
+
+    def pass_intensity(self,subset = None):
+        if subset is None:
+            subset = [p.name for p in self.players]
+
+        n = len(subset)
+        if n < 2:
+            return 0.0
+
+        numerator = self.total_weight(subset)
+        denominator = n * (n - 1)
+
+        return numerator / denominator
+    def top_pairs(self,k=5):
+        all_passes = []
+        for passes in self.adj.values():
+            all_passes.extend(passes)
+        all_passes.sort(key=lambda p: p.nr_of_times, reverse=True)
+        return all_passes[:k]
+
+    def distribution_form(self,sender_name):
+        lst = self.adj.get(sender_name)
+        if lst is None:
+            return []
+        result = [(ps.receiver.name, ps.nr_of_times) for ps in lst]
+        return sorted(result, key=lambda x: x[1], reverse=True)
+     def save_to_txt(self, path):
+        with open(path, "w", encoding="utf-8") as f:
+            f.write("[PLAYERS]\n")
+            for p in sorted(self.players, key=lambda x: x.name):
+                f.write(f"{p.name};{p.number}\n")
+            f.write("[PASSES]\n")
+            for sender_name in sorted(self.adj.keys()):
+                for ps in self.adj[sender_name]:
+                    f.write(f"{ps.sender.name} -> {ps.receiver.name} : {ps.nr_of_times}\n"
